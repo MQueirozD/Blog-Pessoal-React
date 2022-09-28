@@ -1,0 +1,22 @@
+.titulo{
+    color: blue;
+    text-align: center;
+}
+
+.img{
+    width: 25%;    /*largura*/
+    height: 25%;  /*altura*/
+    display: block;
+    margin: 0 auto;  /* centraliza a imagem*/
+    transition: all .5s;
+    border: 1px solid #060606;
+}
+
+.img:hover {
+    border: 1px solid #000;
+    border-radius: 50%;
+    -webkit-filter: drop-shadow(20px 7px 1px rgba(0,0,0,.5));
+    filter: drop-shadow(20px 7px 1px rgba(0,0,0,.5));
+    -webkit-transform: rotateZ(-360deg) scale(1.5);
+    transform: rotateZ(-360deg) scale(1.5);
+}
