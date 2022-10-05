@@ -15,5 +15,9 @@
      background-size: cover;
      background-position: center;
  }
+
+ .borda{
+    border-color: brown;
+ }
  
  

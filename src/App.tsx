@@ -7,6 +7,8 @@ import Login from './paginas/login/Login';
 import './App.css';
 import { Grid } from '@material-ui/core'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ListaTema from './Components/temas/listatema/ListaTema';
+import ListaPostagens from './Components/postagens/listapostagem/ListaPostagens';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
             <Route path="/login" element={<Login />} />
              <Route path="/home" element={<Home />} /> {/*// path -T  oda vez q acesar /home vai pra Home */}
             <Route path="/cadastrousuario" element={<CadastroUsuario />} />
+            <Route path="/temas" element={<ListaTema />} />
+            <Route path="/postagens" element={<ListaPostagens />} />
           </Routes>
         </div>
         <Footer />
