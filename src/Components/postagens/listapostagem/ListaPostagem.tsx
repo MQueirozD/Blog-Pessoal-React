@@ -1,65 +1,73 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
 import { Box, Card, CardActions, CardContent, Button, Typography } from '@mui/material';
-import './ListaTema.css';
-import Tema from '../../../models/Tema';
+import { TabContext, TabPanel } from '@material-ui/lab';
+import './ListaPostagem.css';
 import useLocalStorage from 'react-use-localstorage';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'
+import Postagem from '../../../models/Postagem';
 import { busca } from '../../../services/Service';
 
-function ListaTema() {
-    const [temas, setTemas] = useState<Tema[]>([])
+function ListaPostagem() {
+    const [posts, setPosts] = useState<Postagem[]>([])
     const [token, setToken] = useLocalStorage('token');
     let navigate = useNavigate();
 
     useEffect(() => {
-        if (token == '') {
+        if (token == "") {
             alert("Você precisa estar logado")
             navigate("/login")
+
         }
     }, [token])
 
-    async function getTema() {
-        await busca("/temas", setTemas, {
+    async function getPost() {
+        await busca("/postagens", setPosts, {
             headers: {
                 'Authorization': token
             }
         })
     }
 
-
     useEffect(() => {
-        getTema()
-    }, [temas.length])
+
+        getPost()
+
+    }, [posts.length])
 
     return (
         <>
             {
-                temas.map(tema =>(
+                posts.map(post => (
                     <Box m={2} >
                         <Card variant="outlined">
                             <CardContent>
                                 <Typography color="textSecondary" gutterBottom>
-                                    Tema
+                                    Postagens
                                 </Typography>
                                 <Typography variant="h5" component="h2">
-                                    {tema.descricao}
+                                    {post.titulo}
+                                </Typography>
+                                <Typography variant="body2" component="p">
+                                    {post.texto}
+                                </Typography>
+                                <Typography variant="body2" component="p">
+                                    {post.tema?.descricao}
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                <Box display="flex" justifyContent="center" mb={1.5} >
+                                <Box display="flex" justifyContent="center" mb={1.5}>
 
-                                    <Link to={`/formolarioTema/${tema.id}`} className="text-decorator-none">
+                                    <Link to={`/formularioPostagem/${post.id}`} className="text-decorator-none" >
                                         <Box mx={1}>
                                             <Button variant="contained" className="marginLeft" size='small' color="primary" >
-                                                Atualizar
+                                                atualizar
                                             </Button>
                                         </Box>
                                     </Link>
-                                    <Link to={`/deletarTema/${tema.id}`} className="text-decorator-none">
+                                    <Link to={`/deletarPostagem/${post.id}`} className="text-decorator-none">
                                         <Box mx={1}>
                                             <Button variant="contained" size='small' color="secondary">
-                                                Deletar
+                                                deletar
                                             </Button>
                                         </Box>
                                     </Link>
@@ -70,8 +78,7 @@ function ListaTema() {
                 ))
             }
         </>
-    );
+    )
 }
 
-
-export default ListaTema;
+export default ListaPostagem;

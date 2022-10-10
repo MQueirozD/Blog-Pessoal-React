@@ -1,10 +1,8 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom'
-import {  AppBar, Tab, Tabs, Typography, Box  } from '@mui/material';
+import { Box, Card, CardActions, CardContent, Button, Typography, AppBar, Tab, Tabs } from '@mui/material';
 import { TabContext, TabPanel } from '@material-ui/lab';
-import ListaPostagens from '../listapostagem/ListaPostagens';
 import './TabPostagem.css';
-
+import ListaPostagem from '../listapostagem/ListaPostagem';
 
 function TabPostagem() {
     const [value, setValue] = useState('1')
@@ -22,7 +20,7 @@ function TabPostagem() {
         </AppBar>
         <TabPanel value="1" >
           <Box display="flex" flexWrap="wrap" justifyContent="center">
-            <ListaPostagens />
+            <ListaPostagem />
           </Box>
         </TabPanel>
         <TabPanel value="2">

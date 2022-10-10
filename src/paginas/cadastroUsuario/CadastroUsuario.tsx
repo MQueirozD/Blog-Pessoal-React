@@ -53,7 +53,7 @@ function CadastroUsuario() {
         if (confirmarSenha == user.senha) {
             cadastroUsuarios(`/usuarios/cadastrar`, user, setUserResult)
             alert('Usuario cadastrado com sucesso')
-        } 
+        }
         else {
             alert('Dados inconsistentes. Favor verificar as informações de cadastro.')
         }
@@ -74,14 +74,22 @@ function CadastroUsuario() {
                                 type='password' fullWidth />
                             <TextField value={confirmarSenha} onChange={(e: ChangeEvent<HTMLInputElement>) => confirmarSenhaHandle(e)} id='confirmarSenha' label='Confirmar Senha' variant='outlined' name='confirmarSenha' margin='normal'
                                 type='password' fullWidth />
+                            <TextField value={user.foto} onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
+                                id="foto"
+                                label="Foto"
+                                variant="filled"
+                                name="foto"
+                                margin="normal"
+                                placeholder="Inseria uma foto (URL)"
+                                fullWidth />
                             <Box marginTop={2} textAlign='center'>
                                 <Link to='/login' className='text-decoration-none'>
                                     <Button variant='contained' color='secondary' className='btnCancelar'>
                                         Cancelar
-                                    </Button>                                    
+                                    </Button>
                                 </Link>
                                 <Button type='submit' variant='contained' color='primary' >
-                                        Cadastrar
+                                    Cadastrar
                                 </Button>
                             </Box>
                         </form>
