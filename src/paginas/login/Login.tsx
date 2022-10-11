@@ -1,17 +1,22 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Box, Grid, Typography, TextField, Button } from '@mui/material';
-import { Link, useNavigate  } from 'react-router-dom';
-import useLocalStorage from 'react-use-localstorage';
+import { Link, useNavigate } from 'react-router-dom';
+// import useLocalStorage from 'react-use-localstorage';
 import { api, login } from '../../services/Service';
 import './Login.css';
 import UserLogin from '../../models/UserLogin';
+import { useDispatch } from 'react-redux';
+import { addToken } from '../../tokens/actions';
+import { toast } from 'react-toastify';
 
 
 function Login() {
 
-    let history = useNavigate();
-    const [token, setToken] = useLocalStorage('token');//faz o uso do tokem na hora de valiadar
+    let navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [token, setToken] = useState('');//faz o uso do tokem na hora de valiadar
     // userLogin, setUserLogin - são valores q vamos dar
+
     const [userLogin, setUserLogin] = useState<UserLogin>(
         {
             id: 0,
@@ -28,24 +33,42 @@ function Login() {
             [e.target.name]: e.target.value
         })
     }
-        useEffect(()=>{
-            if(token != ''){ //verifica se tem ou não o token                
-                history('/home')
-            }
-        }, [token])
+    useEffect(() => {
+        if (token != '') { //verifica se tem ou não o token   
+            dispatch(addToken(token));
+            navigate('/home')
+        }
+    }, [token])
 
     async function onSubmit(e: ChangeEvent<HTMLFormElement>) { //olha o Form(formulario)- como ele todo
         e.preventDefault();//impedo que o botão atualize a tela
-        try{
+        try {
             //async(url: any,dados: any,setDado: any) é igual a
             await login(`/usuarios/logar`, userLogin, setToken)
-
-            alert('Usuario logado com sucesso!!');
-            }
-            catch{
-                alert('Dados do usuario inconsistentes. Erro ao logar!!');
-            }
+            toast.success('Usuario logado com sucesso!!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                theme: "colored",
+                progress: undefined,
+            });
         }
+        catch {
+            toast.error('Dados do usuario inconsistentes. Erro ao logar!!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                theme: "colored",
+                progress: undefined,
+            });
+        }
+    }
 
     return (
         <Grid container direction='row' justifyContent="cente" alignItems='center'>
@@ -59,10 +82,10 @@ function Login() {
                             id='usuario' label='Usuário' variant='outlined' name='usuario' margin='normal' fullWidth />
                         <TextField value={userLogin.senha} onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
                             id='senha' label='Senha' variant='outlined' name='senha' margin='normal' type='password' fullWidth />
-                        <Box marginTop={2} textAlign='center'>                            
-                                <Button type='submit' variant='contained' color='primary' >
-                                    Logar
-                                </Button>                            
+                        <Box marginTop={2} textAlign='center'>
+                            <Button type='submit' variant='contained' color='primary' >
+                                Logar
+                            </Button>
                         </Box>
                     </form>
                     <Box display='flex' justifyContent="cente" marginTop={2} >

@@ -1,23 +1,37 @@
 import React, { useEffect } from 'react';
 import { Typography, Grid, Button } from '@material-ui/core';
 import { Box } from '@mui/material'
-import { height } from "@mui/system";
+// import { height } from "@mui/system";
 
 import './Home.css';
 import TabPostagem from '../../Components/postagens/tabpostagem/TabPostagem';
-import { useNavigate } from 'react-router-dom';
-import useLocalStorage from 'react-use-localstorage';
+import { Link, useNavigate } from 'react-router-dom';
+// import useLocalStorage from 'react-use-localstorage';
 import ModalPostagem from '../../Components/postagens/modalPostagem/ModalPostagem';
+import { TokenState } from '../../tokens/tokensReducer';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 
 function Home() {
 
     let navigate = useNavigate();
-    const [token, setToken] = useLocalStorage('token');
+    const token = useSelector<TokenState, TokenState["tokens"]>(
+        (state) => state.tokens
+    );
 
     useEffect(() => {
         if (token == "") {
-            alert("Você precisa estar logado")
+            toast.error('Você precisa estar logado', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                theme: "colored",
+                progress: undefined,
+            });
             navigate("/login")
 
         }
@@ -36,12 +50,16 @@ function Home() {
                     <Box display="flex" justifyContent="center">
                         <Box marginRight={1}>
                             <ModalPostagem />
+                            
                         </Box>
-                        <Button variant="outlined" className='botao'>Ver Postagens</Button>
+                        {/* <Button variant="outlined" className='botao'>Ver Postagens</Button> */}
+                        <Link to="/posts" className="text-decorator-none">
+                            <Button variant="outlined" className='botao'>Ver Postagens</Button>
+                        </Link>
                     </Box>
                 </Grid>
                 <Grid item xs={6} >
-                    <img src="https://i.imgur.com/H88yIo2.png" alt="" width="500px" height="500px" />
+                    <img src="https://i.imgur.com/Arz1gsl.jpg" alt="" width="500px" height="500px" />
                 </Grid>
                 <Grid xs={12} className='posts'>
                     <TabPostagem />
